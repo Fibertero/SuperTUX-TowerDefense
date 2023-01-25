@@ -1,5 +1,7 @@
-#include"raylib.h"
-#include"enemy.hpp"
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
+#include "raylib.h"
+#include "enemy.hpp"
 
 class Projectile {
     public:
@@ -18,3 +20,4 @@ class Projectile {
 
     void CheckCollision(Enemy* enemy);
 };
+#endif

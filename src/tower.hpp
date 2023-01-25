@@ -1,3 +1,5 @@
+#ifndef TOWER_H
+#define TOWER_H
 #include"raylib.h"
 #include"projectile.hpp"
 
@@ -20,3 +22,4 @@ class Tower {
 
     void Draw();
 };
+#endif

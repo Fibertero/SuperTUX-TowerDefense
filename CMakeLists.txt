@@ -12,14 +12,21 @@ target_sources(
     PRIVATE
     # Sources
     src/enemy.cpp
+    src/menu.cpp
     src/projectile.cpp
     src/tower.cpp
+    src/options.cpp
+    src/sounds.cpp
+    src/textures.cpp
     # Headers
     src/enemy.hpp
-    
+    src/menu.hpp
     src/projectile.hpp
     src/tower.hpp
     src/player.hpp
+    src/options.hpp
+    src/sounds.hpp
+    src/textures.hpp
 )
 target_link_libraries(${PROJECT_NAME} raylib)
 

@@ -11,7 +11,7 @@ void Projectile::Update(){
 void Projectile::Draw(){
     // code to draw the projectile on the screen using Raylib's drawing functions
     DrawCircleV(position, 3, GREEN);
-    }
+}
 
 void Projectile::CheckCollision(Enemy* enemy){
     // code to check for collision with an enemy and deal damage if a collision occurs

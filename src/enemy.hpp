@@ -1,3 +1,5 @@
+#ifndef ENEMY_H
+#define ENEMY_H
 #include"raylib.h"
 
 class Enemy {
@@ -15,3 +17,5 @@ class Enemy {
 
     void Draw();
 };
+
+#endif
