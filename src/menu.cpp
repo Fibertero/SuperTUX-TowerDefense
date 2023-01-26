@@ -18,7 +18,7 @@ void ExitGameF(){
 Menu::Menu()
 {
     cursorPosition = 0;
-    options = {"Iniciar Jogo", "Carregar Jogo", "Opções", "Sair"};
+    options = {"Start Game", "Load Game", "Options", "Leave"};
 }
 
 //Update the menu
@@ -37,19 +37,19 @@ void Menu::Update(GameState& state)
     {
         switch (cursorPosition)
         {
-            case StartGame: StartGameF(); break;
-            case LoadGame: LoadGameF(); break;
-            case Option: OptionsGameF(state); break;
-            case Exit: ExitGameF(); break;
+            case STARTGAME: StartGameF(); break;
+            case LOADGAME: LoadGameF(); break;
+            case OPTION: OptionsGameF(state); break;
+            case EXIT: ExitGameF(); break;
             default: break;
         }
     }
 }
-void Menu::Draw()
+void Menu::Draw(Font textFont)
 {
    //Drawing options
    for(int i = 0; i < options.size(); i++){
-    DrawText(options[i].c_str(), OPTION_X_POSITION_MENU, OPTION_Y_POSITION_MENU + i * OPTION_Y_DISTANCE_MENU, OPTION_FONT_SIZE_MENU, (cursorPosition == i ? OPTION_SELECTED_COLOR_MENU : OPTION_NON_SELECTED_COLOR_MENU));
+    DrawTextEx(textFont, options[i].c_str(), (Vector2){OPTION_X_POSITION_MENU, OPTION_Y_POSITION_MENU + i * OPTION_Y_DISTANCE_MENU}, OPTION_FONT_SIZE_MENU, 0, (cursorPosition == i ? OPTION_SELECTED_COLOR_MENU : OPTION_NON_SELECTED_COLOR_MENU));
    if(cursorPosition == i){
         Vector2 arrowSize = MeasureTextEx(GetFontDefault(), ">", 20, 0);
         DrawTextEx(GetFontDefault(), ">", {(float)(OPTION_X_POSITION_MENU - arrowSize.x), (float)(OPTION_Y_POSITION_MENU + i * OPTION_Y_DISTANCE_MENU)}, 20, 0, OPTION_SELECTED_COLOR_MENU);}

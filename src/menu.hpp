@@ -3,7 +3,6 @@
 #include"raylib.h"
 #include<vector>
 #include<string>
-#include"statements.hpp"
 #include"options.hpp"
 
 const int OPTION_X_POSITION_MENU = 330;
@@ -14,10 +13,10 @@ const Color OPTION_SELECTED_COLOR_MENU = DARKBLUE;
 const Color OPTION_NON_SELECTED_COLOR_MENU = BLACK;
 
 enum MenuOption {
-    StartGame,
-    LoadGame,
-    Option,
-    Exit
+    STARTGAME,
+    LOADGAME,
+    OPTION,
+    EXIT
 };
 
 class Menu{
@@ -28,7 +27,7 @@ class Menu{
     public:
         Menu();
         void Update(GameState& state);
-        void Draw();
+        void Draw(Font textFont);
         MenuOption GetSelectedOption();
 };
 

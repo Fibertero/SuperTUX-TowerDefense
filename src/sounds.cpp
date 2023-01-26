@@ -2,7 +2,7 @@
 
 std::unordered_map<std::string, Sound> Audio::sounds;
 
-std::vector<std::string> SoundsPath{"../res/sounds/click.mp3"};
+std::vector<std::string> SoundsPath{"../res/sounds/click.wav"};
 
 void Audio::Load(std::string name, std::string filepath){
     Sound sound = LoadSound(filepath.c_str());
