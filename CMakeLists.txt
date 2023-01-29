@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(main)
 
-set(OpenGL_GL_PREFERENCE GLVND)
-find_package(OpenGL 2.0 REQUIRED)
 find_package(raylib 3.0 REQUIRED) # Requires at least version 3.0
 
 set(CMAKE_C_STANDARD 11) # Requires C11 standard
@@ -21,6 +19,8 @@ target_sources(
     src/sounds.cpp
     src/textures.cpp
     src/fonts.cpp
+    src/dialogBox.cpp
+    src/mapSelect.cpp
     # Headers
     src/enemy.hpp
     src/menu.hpp
@@ -31,6 +31,8 @@ target_sources(
     src/sounds.hpp
     src/textures.hpp
     src/fonts.hpp
+    src/dialogBox.hpp
+    src/mapSelect.hpp
 )
 target_link_libraries(${PROJECT_NAME} raylib)
 

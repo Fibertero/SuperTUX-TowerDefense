@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include"options.hpp"
+#include"dialogBox.hpp"
 
 const int OPTION_X_POSITION_MENU = 330;
 const int OPTION_Y_POSITION_MENU = 370;
@@ -14,7 +15,6 @@ const Color OPTION_NON_SELECTED_COLOR_MENU = BLACK;
 
 enum MenuOption {
     STARTGAME,
-    LOADGAME,
     OPTION,
     EXIT
 };
@@ -26,7 +26,7 @@ class Menu{
 
     public:
         Menu();
-        void Update(GameState& state);
+        void Update(GameState& state, GlobalMessage& message);
         void Draw(Font textFont);
         MenuOption GetSelectedOption();
 };

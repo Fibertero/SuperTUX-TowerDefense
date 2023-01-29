@@ -6,9 +6,10 @@ void GlobalMessage::Undefine(){
     isActive=false;
 }
 
-void GlobalMessage::SetInfo(const char *_text, Color _textColor){
+void GlobalMessage::SetInfo(const char *_text, Color _textColor, void (*func)()){
     text = _text;
     textColor = _textColor;
+    functionAction = func;
     isActive=true;
 }
 
@@ -17,13 +18,23 @@ void GlobalMessage::DrawMessage(){
     Vector2 textSize = MeasureTextEx(GetFontDefault(), text, 20, 2);
     Vector2 screenCenter = { GetScreenWidth() / 2, GetScreenHeight() / 2};
     Rectangle DoneButton = {GetScreenWidth()-100, GetScreenHeight()-50, 80, 40};
+    Rectangle CancelButton = {GetScreenWidth()-220, DoneButton.y, 120, 40};
 
     if(isActive){
         /*Drawing "Done Button" box*/
-        DrawRectangle(DoneButton.x, DoneButton.y, DoneButton.width, DoneButton.height, GREEN);
+        DrawRectangleRec(DoneButton, GREEN);
         /*Drawing "Done Button" text*/
         DrawText("OK", DoneButton.x+25, DoneButton.y+10, 25, BLACK);
+        /*Drawing "cancel button" box*/
+        DrawRectangleRec(CancelButton, GRAY);
+        /*Drawing "Cancel Button" text*/
+        DrawText("Cancel", CancelButton.x+20, CancelButton.y+10, 25, BLACK);
+
+
         if(CheckCollisionPointRec(GetMousePosition(), DoneButton) && IsMouseButtonPressed(0)){
+            functionAction();
+        }
+        else if(CheckCollisionPointRec(GetMousePosition(), CancelButton) && IsMouseButtonPressed(0)){
             Undefine();
         }
 

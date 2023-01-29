@@ -2,8 +2,8 @@
 #include <iostream>
 
 // Options return functions
-void StartGameF(){
-    std::cout << "Start Game" << '\n';
+void StartGameF(GameState& state){
+    state = GameState::MAPSELECT;
 }
 void LoadGameF(){
     std::cout << "Load Game" << '\n';
@@ -11,18 +11,18 @@ void LoadGameF(){
 void OptionsGameF(GameState& state){
     state = GameState::OPTIONS;
 }
-void ExitGameF(){
-    CloseWindow();
+void ExitGameF(GlobalMessage& message){
+    message.SetInfo("Você deseja mesmo sair?", WARNING_MESSAGE, CloseWindow);
 }
 
 Menu::Menu()
 {
     cursorPosition = 0;
-    options = {"Start Game", "Load Game", "Options", "Leave"};
+    options = {"Start Game", "Options", "Leave"};
 }
 
 //Update the menu
-void Menu::Update(GameState& state)
+void Menu::Update(GameState& state, GlobalMessage& message)
 {
     //Change the cursor position
     if (IsKeyPressed(KEY_DOWN)) cursorPosition++;
@@ -37,10 +37,9 @@ void Menu::Update(GameState& state)
     {
         switch (cursorPosition)
         {
-            case STARTGAME: StartGameF(); break;
-            case LOADGAME: LoadGameF(); break;
+            case STARTGAME: StartGameF(state); break;
             case OPTION: OptionsGameF(state); break;
-            case EXIT: ExitGameF(); break;
+            case EXIT: ExitGameF(message); break;
             default: break;
         }
     }

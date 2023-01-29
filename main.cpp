@@ -6,12 +6,19 @@
 #include"src/sounds.hpp"
 #include"src/textures.hpp"
 #include"src/fonts.hpp"
-#include"src/dialogBox.hpp"
+#include"src/mapSelect.hpp"
 
 int main()
 {
     InitWindow(800, 600, "Tower Defense");
 
+    //Configuring the window icon
+    Image icon = LoadImage("../icons/icon.png");
+    ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+
+    SetWindowIcon(icon);
+
+    //Removing exit key
     SetExitKey(KEY_NULL);    
 
     //Setting GameState
@@ -20,14 +27,13 @@ int main()
     //Setting the player data
     playerData playerData = {1000};
 
-    ///Setting the options menu
+    ///Setting the game screens
     auto optionsMenu = OptionsMenu();
-
-    //Setting the main menu
     auto menu = Menu();
+    auto mapSelect = MapSelect();
     
     //Setting the globall messages
-    GlobalMessage globalMessage;
+    GlobalMessage globalMessage = {""};
 
     //Setting the audio
     Audio::Init();
@@ -46,15 +52,20 @@ int main()
                 case MENU:
                     DrawTexture(Textures::Get("background2"), 0, 0, WHITE);
                     menu.Draw(Fonts::Get("ice1"));
-                    menu.Update(gameState);
+                    menu.Update(gameState, globalMessage);
                     break;
                 case OPTIONS:
                     optionsMenu.Draw(GlobalVolume, Fonts::Get("ice1"));
                     optionsMenu.Update(GlobalVolume, gameState);
                     break;
+                case MAPSELECT:
+                    mapSelect.Draw();
+                    mapSelect.Update();
+                    break;
             }
             
             if(optionsMenu.globalBooleans["DrawFPS"])DrawFPS(10,10);
+            if(globalMessage.text!="") globalMessage.DrawMessage();
         EndDrawing();
     }
     Audio::ShutDown();

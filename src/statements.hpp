@@ -1,7 +1,7 @@
-#include"raylib.h"
 
 enum GameState{
     GAME,
+    MAPSELECT,
     MENU,
     OPTIONS
 };
