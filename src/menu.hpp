@@ -6,12 +6,12 @@
 #include"options.hpp"
 #include"dialogBox.hpp"
 
-const int OPTION_X_POSITION_MENU = 330;
-const int OPTION_Y_POSITION_MENU = 370;
-const int OPTION_Y_DISTANCE_MENU = 30;
-const int OPTION_FONT_SIZE_MENU = 20;
-const Color OPTION_SELECTED_COLOR_MENU = DARKBLUE;
-const Color OPTION_NON_SELECTED_COLOR_MENU = BLACK;
+inline const int OPTION_X_POSITION_MENU = 330;
+inline const int OPTION_Y_POSITION_MENU = 370;
+inline const int OPTION_Y_DISTANCE_MENU = 30;
+inline const int OPTION_FONT_SIZE_MENU = 20;
+inline const Color OPTION_SELECTED_COLOR_MENU = DARKBLUE;
+inline const Color OPTION_NON_SELECTED_COLOR_MENU = BLACK;
 
 enum MenuOption {
     STARTGAME,
@@ -31,9 +31,9 @@ class Menu{
         MenuOption GetSelectedOption();
 };
 
-void StartGameF();
-void LoadGameF();
-void OptionsGameF();
-void ExitGameF();
+static void StartGameF();
+static void LoadGameF();
+static void OptionsGameF();
+static void ExitGameF();
 
 #endif

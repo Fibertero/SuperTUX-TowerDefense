@@ -12,7 +12,7 @@ void MapSelect::Draw()
         //Draws the maps button
         
         //DrawRectangleRec(mapButtons[i], (currentMapIndex==i) ? GREEN : GRAY);
-        if(FileExists(gameMaps[i].pathToFile.c_str())) DrawTexture(gameMaps[i].image, mapButtons[i].x, mapButtons[i].y, WHITE);
+        if(FileExists(gameMaps[i].pathToImageFile.c_str())) DrawTexture(gameMaps[i].texturePreview, mapButtons[i].x, mapButtons[i].y, WHITE);
         else{ DrawRectangleRec(mapButtons[i], (currentMapIndex==i) ? GREEN : GRAY); } 
         //Draws the current selected map
         DrawText(("Mapa %i", gameMaps[i].name.c_str()), mapButtons[i].x + mapButtons[i].width / 2 - MeasureText("Mapa 1", 30) / 2, mapButtons[i].y + mapButtons[i].height / 2 - 15, 30, YELLOW);
@@ -20,19 +20,19 @@ void MapSelect::Draw()
     DrawText(("Mapa selecionado: %i", gameMaps[currentMapIndex].name.c_str()), mapButtons[0].x, mapButtons[0].y-50, 30, WHITE);
 }
 
-void MapSelect::Update()
+void MapSelect::Update(GameState& state)
 {
     if (IsKeyPressed(KEY_RIGHT))
     {
         // Change to the next map
         currentMapIndex = (currentMapIndex + 1) % NUM_MAPS;
     }
-    if (IsKeyPressed(KEY_LEFT))
+    else if (IsKeyPressed(KEY_LEFT))
     {
         // Change to the previous map
         currentMapIndex = (currentMapIndex + NUM_MAPS - 1) % NUM_MAPS;
     }
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    else if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         Vector2 mousePos = GetMousePosition();
 
@@ -46,6 +46,10 @@ void MapSelect::Update()
             }
         }
     }
+    else if(IsKeyPressed(KEY_ENTER)){
+        mapChoosed = gameMaps[currentMapIndex];
+        state = INGAME;
+    }
 }
 MapSelect::MapSelect()
 {
@@ -57,12 +61,22 @@ MapSelect::MapSelect()
         Map newMap;
         newMap.id = i;
         newMap.name = "Mapa " + std::to_string(i+1);
-        newMap.pathToFile = ("../res/maps/map" + std::to_string(i+1) + ".png");
+        newMap.pathToImageFile = ("../res/maps/mapPreview" + std::to_string(i+1) + ".png");
+        //newMap.enemyPathImage = LoadTexture(("../res/maps/mapPath" + std::to_string(i+1) + ".png").c_str());
         //Checking if the image exists, setting as preview and resizing it
-        if(FileExists(newMap.pathToFile.c_str())){
-            auto image = LoadImage(newMap.pathToFile.c_str());
-            ImageResize(&image, BUTTON_WIDTH, BUTTON_HEIGHT);
-            newMap.image = LoadTextureFromImage(image);
+        if(FileExists(newMap.pathToImageFile.c_str())){
+            auto image = LoadImage(newMap.pathToImageFile.c_str());
+            auto imagePreview = LoadImage(newMap.pathToImageFile.c_str());
+            ImageResize(&imagePreview, BUTTON_WIDTH, BUTTON_HEIGHT);
+            ImageResize(&image, GetScreenWidth(), GetScreenHeight());
+            newMap.texturePreview = LoadTextureFromImage(imagePreview);
+            newMap.texture = LoadTextureFromImage(image);
+
+            newMap.enemyPathImage = image;
+            UnloadImage(imagePreview);
+        }
+        else{
+            std::cout << "Unable to get map files" << '\n';
         }
         gameMaps.push_back(newMap);
     }
@@ -71,10 +85,21 @@ MapSelect::MapSelect()
     {
         // Define the buttons position
         mapButtons[i] = { 
-            static_cast<float>((GetScreenWidth() - BUTTON_WIDTH) / 2), // Centraliza horizontalmente
-            static_cast<float>((GetScreenHeight() / NUM_MAPS) * i + (GetScreenHeight() / NUM_MAPS - BUTTON_HEIGHT) / 2), // Espaça verticalmente
+            static_cast<float>((GetScreenWidth() - BUTTON_WIDTH) / 2),
+            static_cast<float>((GetScreenHeight() / NUM_MAPS) * i + (GetScreenHeight() / NUM_MAPS - BUTTON_HEIGHT) / 2),
             BUTTON_WIDTH, 
             BUTTON_HEIGHT 
             };
+    }
+}
+
+int MapSelect::GetMapChoosed(){
+    return mapChoosed.id;
+}
+
+void MapSelect::UnloadMaps(){
+    for(int i = 0; i<gameMaps.size(); i++){
+        UnloadTexture(gameMaps[i].texture);
+        UnloadTexture(gameMaps[i].texturePreview); 
     }
 }

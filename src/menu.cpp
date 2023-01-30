@@ -2,16 +2,16 @@
 #include <iostream>
 
 // Options return functions
-void StartGameF(GameState& state){
+static void StartGameF(GameState& state){
     state = GameState::MAPSELECT;
 }
-void LoadGameF(){
+static void LoadGameF(){
     std::cout << "Load Game" << '\n';
 }
-void OptionsGameF(GameState& state){
+static void OptionsGameF(GameState& state){
     state = GameState::OPTIONS;
 }
-void ExitGameF(GlobalMessage& message){
+static void ExitGameF(GlobalMessage& message){
     message.SetInfo("Você deseja mesmo sair?", WARNING_MESSAGE, CloseWindow);
 }
 

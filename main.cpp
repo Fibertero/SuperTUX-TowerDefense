@@ -1,43 +1,57 @@
 #include<iostream>
+//Including libs
 #include"raylib.h"
-#include"src/tower.hpp"
-#include"src/player.hpp"
-#include"src/menu.hpp"
-#include"src/sounds.hpp"
-#include"src/textures.hpp"
+
+//Including another game files
 #include"src/fonts.hpp"
-#include"src/mapSelect.hpp"
+#include"src/menu.hpp"
+#include"src/player.hpp"
+#include"src/sounds.hpp"
+#include"src/tower.hpp"
+#include"src/textures.hpp"
 
 int main()
 {
+
+    Image windowIcon;
+    GameState gameState;
+    std::vector<Enemy> enemies;
+    playerData playerData;
+    GlobalMessage globalMessage;
+    float GlobalVolume;
+
     InitWindow(800, 600, "Tower Defense");
 
     //Configuring the window icon
-    Image icon = LoadImage("../icons/icon.png");
-    ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-
-    SetWindowIcon(icon);
+    windowIcon = LoadImage("../icons/icon.png");
+    ImageFormat(&windowIcon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+    SetWindowIcon(windowIcon);
 
     //Removing exit key
     SetExitKey(KEY_NULL);    
 
-    //Setting GameState
-    GameState gameState = MENU;
+    //Configuring GameState
+    gameState = MENU;
 
-    //Setting the player data
-    playerData playerData = {1000};
+    //Configuring enemies
+    enemies = InitEnemies();
+    enemies.push_back((Enemy){(Vector2){0,0}, 0.1, 50, true});
+    enemies.push_back((Enemy){(Vector2){180, 100}, 0.1, 50, true});
 
-    ///Setting the game screens
+    //Configuring the player data
+    playerData = {1000};
+
+    ///Configuring the game screens
     auto optionsMenu = OptionsMenu();
     auto menu = Menu();
     auto mapSelect = MapSelect();
     
-    //Setting the globall messages
-    GlobalMessage globalMessage = {""};
+    //Configuring the globall messages
+    globalMessage = {""};
 
     //Setting the audio
     Audio::Init();
-    float GlobalVolume = 0.5;
+    GlobalVolume = 0.5;
     SetMasterVolume(GlobalVolume);
     //Setting the textures
     Textures::Init();
@@ -60,7 +74,14 @@ int main()
                     break;
                 case MAPSELECT:
                     mapSelect.Draw();
-                    mapSelect.Update();
+                    mapSelect.Update(gameState);
+                    break;
+                case INGAME:
+                    DrawTexture(gameMaps[mapSelect.GetMapChoosed()].texture, 0, 0, WHITE);
+                    for(int i = 0; i<enemies.size(); ++i){
+                        enemies[i].Update(enemies, gameMaps[mapSelect.GetMapChoosed()+1]);
+                        enemies[i].Draw();
+                    }
                     break;
             }
             
@@ -71,5 +92,7 @@ int main()
     Audio::ShutDown();
     Textures::ShutDown();
     Fonts::ShutDown();
+    mapSelect.UnloadMaps();
+    UnloadImage(windowIcon); //organizar esse unload
     CloseWindow();
 }

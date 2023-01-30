@@ -1,7 +1,7 @@
 #include"fonts.hpp"
 
-std::vector<std::string> fontsPath = {"../res/fonts/ice1.otf", "../res/fonts/frosty.ttf"};
-std::unordered_map<std::string, Font> fonts;
+static std::vector<std::string> fontsPath = {"../res/fonts/ice1.otf", "../res/fonts/frosty.ttf"};
+static std::unordered_map<std::string, Font> fonts;
 
 void Fonts::Load(std::string name, std::string path){
     Font font = LoadFont(path.c_str());

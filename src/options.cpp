@@ -1,17 +1,17 @@
 #include"options.hpp"
 #include<iostream>
 
-void VolumeF(float& volume, float quantity){
+static void VolumeF(float& volume, float quantity){
     //Adding the quantity to the volume
     if((volume+quantity)<1.1 && (volume+quantity)>0) volume+=quantity;
     //Updating the volume variable
     SetMasterVolume(volume);
 }
-void DrawFpsF(bool& drawFps){
+static void DrawFpsF(bool& drawFps){
     if(drawFps) drawFps = false;
     else drawFps = true;
 }
-void FullScreenF(){
+static void FullScreenF(){
     ToggleFullscreen();
 }
 

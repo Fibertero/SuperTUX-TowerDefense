@@ -1,13 +1,18 @@
+#ifndef MAPSELECT_H
+#define MAPSELECT_H
 #include "raylib.h"
 #include<string>
 #include<vector>
+#include"menu.hpp"
 
-struct Map{
+typedef struct{
     std::string name;
     int id;
-    std::string pathToFile;
-    Texture2D image;
-};
+    std::string pathToImageFile;
+    Texture2D texturePreview;
+    Texture2D texture;
+    Image enemyPathImage;
+}Map;
 
 extern std::vector<Map> gameMaps;
 
@@ -15,18 +20,25 @@ class MapSelect
 {
     public:
         // Número total de mapas disponíveis
-        static const int NUM_MAPS = 4;
+        static inline const int NUM_MAPS = 4;
         
         // Tamanho dos botões de seleção de mapas
-        static const int BUTTON_WIDTH = 200;
-        static const int BUTTON_HEIGHT = 50;
+        static inline const int BUTTON_WIDTH = 200;
+        static inline const int BUTTON_HEIGHT = 50;
 
         MapSelect();
 
         void Draw();
 
-        void Update();
+        void Update(GameState& state);
+
+        int GetMapChoosed();
+
+        void UnloadMaps();
     private:
         Rectangle mapButtons[NUM_MAPS];
         int currentMapIndex;
+        Map mapChoosed;
 };
+
+#endif
