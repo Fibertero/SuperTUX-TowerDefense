@@ -9,7 +9,7 @@ static void LoadGameF(){
     std::cout << "Load Game" << '\n';
 }
 static void OptionsGameF(GameState& state){
-    state = GameState::OPTIONS;
+    state = OPTIONS;
 }
 static void ExitGameF(GlobalMessage& message){
     message.SetInfo("Você deseja mesmo sair?", WARNING_MESSAGE, CloseWindow);

@@ -20,7 +20,7 @@ class MapSelect
 {
     public:
         // Número total de mapas disponíveis
-        static inline const int NUM_MAPS = 4;
+        static inline const int NUM_MAPS = 2;
         
         // Tamanho dos botões de seleção de mapas
         static inline const int BUTTON_WIDTH = 200;

@@ -5,20 +5,23 @@
 //Including another game files
 #include"src/fonts.hpp"
 #include"src/menu.hpp"
-#include"src/player.hpp"
 #include"src/sounds.hpp"
 #include"src/tower.hpp"
 #include"src/textures.hpp"
+#include"src/castle.hpp"
+#include"src/game.hpp"
 
 int main()
 {
 
-    Image windowIcon;
-    GameState gameState;
-    std::vector<Enemy> enemies;
-    playerData playerData;
-    GlobalMessage globalMessage;
-    float GlobalVolume;
+    Image windowIcon{};
+    GameState gameState{};
+    std::vector<Enemy> enemies{};
+    PlayerData playerData{0};
+    auto castle = Castle(50, 50);
+    GlobalMessage globalMessage{};
+    float GlobalVolume{};
+    auto game = Game(enemies);
 
     InitWindow(800, 600, "Tower Defense");
 
@@ -33,11 +36,6 @@ int main()
     //Configuring GameState
     gameState = MENU;
 
-    //Configuring enemies
-    enemies = InitEnemies();
-    enemies.push_back((Enemy){(Vector2){0,0}, 0.1, 50, true});
-    enemies.push_back((Enemy){(Vector2){180, 100}, 0.1, 50, true});
-
     //Configuring the player data
     playerData = {1000};
 
@@ -45,7 +43,7 @@ int main()
     auto optionsMenu = OptionsMenu();
     auto menu = Menu();
     auto mapSelect = MapSelect();
-    
+
     //Configuring the globall messages
     globalMessage = {""};
 
@@ -57,6 +55,12 @@ int main()
     Textures::Init();
     //Setting the fonts
     Fonts::Init();
+
+    //Init the game enmies
+    game.Init(6);
+
+    //Starting the game timer
+    StartTimer(game.timer, 0.1f);
 
     while(!WindowShouldClose()){
         if(IsKeyPressed(KEY_ENTER)) PlaySound(Audio::GetSound("click"));
@@ -77,10 +81,17 @@ int main()
                     mapSelect.Update(gameState);
                     break;
                 case INGAME:
+                    if(TimerDone(game.timer)){ 
+                        std::cout << "aa" << '\n';
+                        game.SpawnEnemy();
+                        StartTimer(game.timer, 5.0f);
+                    }
                     DrawTexture(gameMaps[mapSelect.GetMapChoosed()].texture, 0, 0, WHITE);
-                    for(int i = 0; i<enemies.size(); ++i){
-                        enemies[i].Update(enemies, gameMaps[mapSelect.GetMapChoosed()+1]);
-                        enemies[i].Draw();
+                    game.Draw();
+                    game.Update(game.enemies, gameMaps[mapSelect.GetMapChoosed()]);
+                    //Check if are the enemies died
+                    if(game.CheckEnemiesState(game.enemies)){
+                        game.NextRound(globalMessage);
                     }
                     break;
             }

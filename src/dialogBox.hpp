@@ -7,7 +7,7 @@ struct GlobalMessage
     Color textColor;
     bool isActive;
     void (*functionAction)();
-    void SetInfo(const char *_text, Color _textColor, void (*func)());
+    void SetInfo(const char *_text, Color _textColor, void (*func)()=nullptr);
     void DrawMessage();
     void Undefine();
 };

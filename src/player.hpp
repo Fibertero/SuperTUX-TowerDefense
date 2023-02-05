@@ -2,4 +2,4 @@
 
 typedef struct{
     int points;
-}playerData;
+}PlayerData;

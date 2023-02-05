@@ -62,17 +62,17 @@ MapSelect::MapSelect()
         newMap.id = i;
         newMap.name = "Mapa " + std::to_string(i+1);
         newMap.pathToImageFile = ("../res/maps/mapPreview" + std::to_string(i+1) + ".png");
-        //newMap.enemyPathImage = LoadTexture(("../res/maps/mapPath" + std::to_string(i+1) + ".png").c_str());
+        newMap.enemyPathImage = LoadImage(("../res/maps/mapPath" + std::to_string(i+1) + ".png").c_str());
+        ImageResize(&newMap.enemyPathImage, 800, 600);
         //Checking if the image exists, setting as preview and resizing it
         if(FileExists(newMap.pathToImageFile.c_str())){
             auto image = LoadImage(newMap.pathToImageFile.c_str());
             auto imagePreview = LoadImage(newMap.pathToImageFile.c_str());
-            ImageResize(&imagePreview, BUTTON_WIDTH, BUTTON_HEIGHT);
             ImageResize(&image, GetScreenWidth(), GetScreenHeight());
-            newMap.texturePreview = LoadTextureFromImage(imagePreview);
+            ImageResize(&imagePreview, BUTTON_WIDTH, BUTTON_HEIGHT);
             newMap.texture = LoadTextureFromImage(image);
+            newMap.texturePreview = LoadTextureFromImage(imagePreview);
 
-            newMap.enemyPathImage = image;
             UnloadImage(imagePreview);
         }
         else{
@@ -99,6 +99,7 @@ int MapSelect::GetMapChoosed(){
 
 void MapSelect::UnloadMaps(){
     for(int i = 0; i<gameMaps.size(); i++){
+        UnloadImage(gameMaps[i].enemyPathImage);
         UnloadTexture(gameMaps[i].texture);
         UnloadTexture(gameMaps[i].texturePreview); 
     }

@@ -32,7 +32,12 @@ void GlobalMessage::DrawMessage(){
 
 
         if(CheckCollisionPointRec(GetMousePosition(), DoneButton) && IsMouseButtonPressed(0)){
-            functionAction();
+            if(functionAction!=nullptr){
+                functionAction();
+            }
+            else{
+                Undefine();
+            }
         }
         else if(CheckCollisionPointRec(GetMousePosition(), CancelButton) && IsMouseButtonPressed(0)){
             Undefine();

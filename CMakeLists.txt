@@ -21,6 +21,9 @@ target_sources(
     src/fonts.cpp
     src/dialogBox.cpp
     src/mapSelect.cpp
+    src/game.cpp
+    src/castle.cpp
+    src/timer.cpp
     # Headers
     src/enemy.hpp
     src/menu.hpp
@@ -33,6 +36,9 @@ target_sources(
     src/fonts.hpp
     src/dialogBox.hpp
     src/mapSelect.hpp
+    src/game.hpp
+    src/castle.hpp
+    src/timer.hpp
 )
 target_link_libraries(${PROJECT_NAME} raylib)
 
