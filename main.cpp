@@ -82,7 +82,6 @@ int main()
                     break;
                 case INGAME:
                     if(TimerDone(game.timer)){ 
-                        std::cout << "aa" << '\n';
                         game.SpawnEnemy();
                         StartTimer(game.timer, 5.0f);
                     }
