@@ -3,6 +3,8 @@
 #include"enemy.hpp"
 #include"menu.hpp"
 #include"timer.hpp"
+#include"castle.hpp"
+#include"tower.hpp"
 
 #include <vector>
 
@@ -18,9 +20,9 @@ public:
 
     void NextRound(GlobalMessage& globalMessage);
 
-    void Update(std::vector<Enemy>& enemies, Map& currentMap);
+    void Update(std::vector<Enemy>& enemies, Map& currentMap, GlobalMessage& globalMessage);
 
-    void Draw();
+    void Draw(Castle castle);
 
     void Init(int numberEnemies);
 

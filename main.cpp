@@ -6,10 +6,9 @@
 #include"src/fonts.hpp"
 #include"src/menu.hpp"
 #include"src/sounds.hpp"
-#include"src/tower.hpp"
 #include"src/textures.hpp"
-#include"src/castle.hpp"
 #include"src/game.hpp"
+
 
 int main()
 {
@@ -18,10 +17,9 @@ int main()
     GameState gameState{};
     std::vector<Enemy> enemies{};
     PlayerData playerData{0};
-    auto castle = Castle(50, 50);
     GlobalMessage globalMessage{};
-    float GlobalVolume{};
     auto game = Game(enemies);
+    float GlobalVolume{};
 
     InitWindow(800, 600, "Tower Defense");
 
@@ -56,8 +54,12 @@ int main()
     //Setting the fonts
     Fonts::Init();
 
-    //Init the game enmies
+    //Init the game enemies
     game.Init(6);
+
+    //Configuring castle
+    auto castle = Castle(50, 50, (Rectangle){(GetScreenWidth()/2), GetScreenHeight()-Textures::Get("castle").height, Textures::Get("castle").width, Textures::Get("castle").height});
+
 
     //Starting the game timer
     StartTimer(game.timer, 0.1f);
@@ -86,12 +88,8 @@ int main()
                         StartTimer(game.timer, 5.0f);
                     }
                     DrawTexture(gameMaps[mapSelect.GetMapChoosed()].texture, 0, 0, WHITE);
-                    game.Draw();
-                    game.Update(game.enemies, gameMaps[mapSelect.GetMapChoosed()]);
-                    //Check if are the enemies died
-                    if(game.CheckEnemiesState(game.enemies)){
-                        game.NextRound(globalMessage);
-                    }
+                    game.Draw(castle);
+                    game.Update(game.enemies, gameMaps[mapSelect.GetMapChoosed()], globalMessage);
                     break;
             }
             

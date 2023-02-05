@@ -39,7 +39,11 @@ target_sources(
     src/game.hpp
     src/castle.hpp
     src/timer.hpp
+
+    #libs
+    /usr/local/include/raygui.h
 )
+
 target_link_libraries(${PROJECT_NAME} raylib)
 
 # Checks if OSX and links appropriate frameworks (only required on MacOS)

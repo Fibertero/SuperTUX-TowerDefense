@@ -22,4 +22,5 @@ class Tower {
 
     void Draw();
 };
+
 #endif

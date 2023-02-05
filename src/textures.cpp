@@ -2,7 +2,7 @@
 #include<iostream>
 std::unordered_map<std::string, Texture2D> textures;
 
-std::vector<std::string> texturesPath{"../res/images/background.png", "../res/images/background2.png"};
+std::vector<std::string> texturesPath{"../res/images/background.png", "../res/images/background2.png", "../res/images/castle.png"};
 
 void Textures::Load(std::string name, std::string filePath) {
     Texture2D texture = LoadTexture(filePath.c_str());
